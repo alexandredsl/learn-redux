@@ -1,51 +1,23 @@
 /* eslint-disable default-case */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import allReducers from './reducers'
 
+const store = createStore(
+    allReducers,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+)
 
-//Store - Global State
-
-// Action Increment (Nome da ação que será 
-// executada )
-const increment = () => {
-    return {
-        type: 'INCREMENT'
-    }
-}
-const decrement = () => {
-    return {
-        type: 'DECREMENT'
-    }
-}
-// Reducer: Descreve como os actions 
-
-const counter = (state = 0, action) => {
-    switch (action.type) {
-        case 'INCREMENT':
-            return state + 1;
-        case 'DECREMENT':
-            return state - 1;
-    }
-}
-
-let store = createStore(counter);
-
-// Mostra no console
-store.subscribe(() => console.log(store.getState()))
-
-// Dispatch
-store.dispatch(increment());
-
-// transformam o state, no novo state
-
-// Dispatch dispara todo o fluxo:
-// Dispatch > Action > Reducer > Store
-
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+    <Provider store={store}>
+        <App />
+    </Provider>
+    , document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
